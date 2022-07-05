@@ -6,7 +6,7 @@ interface UserProps {
 }
 
 export function User(props: UserProps) {
-  const [styleProps] = useState('bg-white shadow-md p-6')
+  const [styleProps] = useState('bg-white dark:bg-slate-900 shadow-md p-6')
 
   return (
     <div
@@ -21,9 +21,11 @@ export function User(props: UserProps) {
           height="32px"
           className="rounded-full"
         />
-        <p className="ml-2 text-slate-600 font-medium">João Vitor</p>
+        <p className="ml-2 text-slate-600 dark:text-slate-300 font-medium">
+          João Vitor
+        </p>
       </div>
-      <span className="text-gray-600">10.2k</span>
+      <span className="text-gray-600 dark:text-slate-300">10.2k</span>
     </div>
   )
 }

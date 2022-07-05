@@ -26,11 +26,11 @@ const UserPage: NextPage = () => {
 
       <div className="w-full h-full">
         <Header />
-        <div className="max-w-7xl mx-auto my-6 grid grid-cols-[1fr_768px_1fr] gap-6">
-          <Nav />
+        <div className="max-w-7xl mx-auto py-6 grid lg:grid-cols-[1fr_768px] xl:grid-cols-[1fr_768px_1fr] sm:gap-6 top-16">
+          <Nav className="hidden lg:inline-block" />
           <main className="flex flex-col gap-6">
             <User styleProps />
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mx-2 sm:mx-0">
               <span className="text-slate-800 font-medium uppercase">
                 Publications
               </span>

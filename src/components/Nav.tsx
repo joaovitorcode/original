@@ -7,15 +7,21 @@ import {
   HiOutlineUser,
 } from 'react-icons/hi'
 
-export function Nav() {
+interface NavProps {
+  className?: string
+}
+
+export function Nav({ className }: NavProps) {
   const router = useRouter()
-  const [styleProps] = useState('text-brand bg-brand bg-opacity-10')
+  const [styleProps] = useState(
+    'text-brand dark:text-brand bg-brand bg-opacity-10 dark:bg-opacity-20'
+  )
 
   return (
-    <nav>
+    <nav className={className}>
       <Link href="/">
         <a
-          className={`w-full px-4 py-3 text-start flex text-slate-600 hover:text-brand hover:bg-brand hover:bg-opacity-10 ${
+          className={`w-full px-4 py-3 text-start flex text-slate-600 hover:text-brand dark:hover:text-brand hover:bg-brand hover:bg-opacity-10 dark:hover:bg-opacity-20 dark:text-slate-300 ${
             router.pathname === '/' && styleProps
           }`}
         >
@@ -25,7 +31,7 @@ export function Nav() {
       </Link>
       <Link href="/user/1">
         <a
-          className={`w-full px-4 py-3 text-start flex text-slate-600 hover:text-brand hover:bg-brand hover:bg-opacity-10 ${
+          className={`w-full px-4 py-3 text-start flex text-slate-600 hover:text-brand dark:hover:text-brand hover:bg-brand hover:bg-opacity-10 dark:hover:bg-opacity-20 dark:text-slate-300 ${
             router.pathname === '/user/[id]' && styleProps
           }`}
         >
@@ -35,7 +41,7 @@ export function Nav() {
       </Link>
       <Link href="/danger">
         <a
-          className={`w-full px-4 py-3 text-start flex text-slate-600 hover:text-brand hover:bg-brand hover:bg-opacity-10 ${
+          className={`w-full px-4 py-3 text-start flex text-slate-600 hover:text-brand dark:hover:text-brand hover:bg-brand hover:bg-opacity-10 dark:hover:bg-opacity-20 dark:text-slate-300 ${
             router.pathname === '/danger' && styleProps
           }`}
         >

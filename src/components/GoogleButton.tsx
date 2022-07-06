@@ -1,7 +1,15 @@
-export function GoogleButton() {
+import { FcGoogle } from 'react-icons/fc'
+
+interface GoogleButtonProps {
+  styleProps?: string
+}
+
+export function GoogleButton(props: GoogleButtonProps) {
   return (
-    <button className="w-auto py-2 sm:py-3 px-3 sm:px-4 bg-google hover:bg-white text-white hover:text-google border border-google rounded transition-colors">
-      Sign in with Google
+    <button
+      className={`sm:w-auto h-10 px-2 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600 shadow rounded transition-colors flex items-center gap-2 ${props.styleProps}`}
+    >
+      <FcGoogle size={20} /> Sign in with Google
     </button>
   )
 }

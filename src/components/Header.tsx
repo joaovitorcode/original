@@ -5,9 +5,11 @@ import { GoogleButton } from './GoogleButton'
 import { MdMenu } from 'react-icons/md'
 import { Nav } from '../components/Nav'
 import { ToggleColorModoButton } from '../components/ToggleColorModoButton'
+import { useAuth } from '../hooks/useAuth'
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const { currentUser, signInWithGoogle, signOut } = useAuth()
 
   return (
     <header className="w-full h-16 bg-white dark:bg-slate-900 shadow-md sticky top-0 z-10">
@@ -16,7 +18,11 @@ export function Header() {
         <div className="flex gap-4 items-center">
           <ToggleColorModoButton />
           <div className="hidden sm:block">
-            <GoogleButton />
+            {currentUser ? (
+              <button onClick={signOut}>Sign Out</button>
+            ) : (
+              <GoogleButton onClick={signInWithGoogle} />
+            )}
           </div>
           <button className="xl:hidden dark:text-white">
             <MdMenu onClick={() => setIsOpen(!isOpen)} size={24} />
@@ -33,7 +39,14 @@ export function Header() {
             </a>
           </Link>
           <div className="sm:hidden mx-4 mt-4">
-            <GoogleButton styleProps="w-full h-12 justify-center" />
+            {currentUser ? (
+              <button onClick={signOut}>Sign Out</button>
+            ) : (
+              <GoogleButton
+                onClick={signInWithGoogle}
+                styleProps="w-full h-12 justify-center"
+              />
+            )}
           </div>
         </div>
       )}

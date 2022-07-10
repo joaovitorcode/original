@@ -19,7 +19,12 @@ export function Header() {
           <ToggleColorModoButton />
           <div className="hidden sm:block">
             {currentUser ? (
-              <button onClick={signOut}>Sign Out</button>
+              <button
+                onClick={signOut}
+                className="w-full h-10 sm:w-auto px-2 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600 shadow rounded transition-colors"
+              >
+                Sign Out
+              </button>
             ) : (
               <GoogleButton onClick={signInWithGoogle} />
             )}
@@ -40,7 +45,12 @@ export function Header() {
           </Link>
           <div className="sm:hidden mx-4 mt-4">
             {currentUser ? (
-              <button onClick={signOut}>Sign Out</button>
+              <button
+                onClick={signOut}
+                className="w-full h-12 sm:w-auto px-2 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600 shadow rounded transition-colors"
+              >
+                Sign Out
+              </button>
             ) : (
               <GoogleButton
                 onClick={signInWithGoogle}

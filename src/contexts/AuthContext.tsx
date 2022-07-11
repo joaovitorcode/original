@@ -6,6 +6,7 @@ import {
   signOut as LogOut,
 } from 'firebase/auth'
 import { auth } from '../lib/firebase'
+import axios from 'axios'
 
 interface AuthContextProviderProps {
   children: ReactNode
@@ -23,9 +24,21 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
     return unsubscribe
   }, [])
 
+  async function createUserData() {
+    const user = auth.currentUser
+    await axios.post('/api/addUser', {
+      uid: user?.uid,
+      displayName: user?.displayName,
+      photoURL: user?.photoURL,
+      countVotes: 0,
+    })
+  }
+
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider()
     await signInWithPopup(auth, provider)
+
+    await createUserData()
   }
 
   async function signOut() {

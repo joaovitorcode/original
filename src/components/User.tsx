@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 interface UserProps {
   styleProps?: boolean
+  user?: any
 }
 
 export function User(props: UserProps) {
@@ -15,17 +16,21 @@ export function User(props: UserProps) {
       }`}
     >
       <div className="flex items-center">
-        <Image
-          src="/avatar.png"
-          width="32px"
-          height="32px"
-          className="rounded-full"
-        />
+        {props.user?.photoURL && (
+          <Image
+            src={props.user?.photoURL}
+            width="32px"
+            height="32px"
+            className="rounded-full"
+          />
+        )}
         <p className="ml-2 text-slate-600 dark:text-slate-300 font-medium">
-          João Vitor
+          {props.user?.displayName}
         </p>
       </div>
-      <span className="text-gray-600 dark:text-slate-300">10.2k</span>
+      <span className="text-gray-600 dark:text-slate-300">
+        {props.user?.countVotes}
+      </span>
     </div>
   )
 }

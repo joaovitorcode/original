@@ -1,11 +1,37 @@
 import type { NextPage } from 'next'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { Header } from '../../components/Header'
 import { Nav } from '../../components/Nav'
 import { Write } from '../../components/Write'
 import { Aside } from '../../components/Aside'
+import axios from 'axios'
+import { useAuth } from '../../hooks/useAuth'
 
 const NewTopicPage: NextPage = () => {
+  const [value, setValue] = useState('')
+  const [publish, setPublish] = useState(false)
+  const { currentUser } = useAuth()
+
+  useEffect(() => {
+    async function handleSubmit() {
+      await axios.post('/api/addTopic', {
+        author: {
+          id: currentUser?.uid,
+          displayName: currentUser?.displayName,
+          photoURL: currentUser?.photoURL,
+        },
+        title: '',
+        body: value,
+        createdAt: new Date(),
+        upvotes: 0,
+        downvotes: 0,
+      })
+    }
+
+    if (publish) handleSubmit()
+  }, [publish])
+
   return (
     <div>
       <Head>
@@ -20,7 +46,7 @@ const NewTopicPage: NextPage = () => {
             <span className="text-slate-800 dark:text-white font-medium uppercase mx-2 sm:mx-0">
               Write a Topic
             </span>
-            <Write />
+            <Write setValue={setValue} setPublish={setPublish} />
           </main>
           <Aside />
         </div>

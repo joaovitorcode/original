@@ -6,9 +6,22 @@ import { toast } from 'react-toastify'
 
 interface TopicProps {
   children?: ReactNode
+  topic?: {
+    _id: string
+    author: {
+      id: string
+      displayName: string
+      photoURL: string
+    }
+    title: string
+    body: string
+    createdAt: string
+    upvotes: string
+    downvotes: string
+  }
 }
 
-export function Topic({ children }: TopicProps) {
+export function Topic({ children, topic }: TopicProps) {
   const [isOpen, setIsOpen] = useState(false)
   const notify = () => toast.success('Link copied with successfully!')
 
@@ -16,26 +29,24 @@ export function Topic({ children }: TopicProps) {
     <article className="bg-white dark:bg-slate-900 shadow-md p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <Image
-            src="/avatar.png"
-            width="32px"
-            height="32px"
-            className="rounded-full"
-          />
+          {topic?.author && (
+            <Image
+              src={topic.author.photoURL}
+              width="32px"
+              height="32px"
+              className="rounded-full"
+            />
+          )}
           <p className="ml-2 text-slate-600 dark:text-slate-300 font-medium">
-            João Vitor
+            {topic?.author.displayName}
           </p>
         </div>
-        <p className="text-slate-600 dark:text-slate-300">01 Jul 2022</p>
+        <p className="text-slate-600 dark:text-slate-300">{topic?.createdAt}</p>
       </div>
       <h1 className="text-2xl font-medium dark:text-white">
         How to learn javascript?
       </h1>
-      <p className="text-slate-600 dark:text-slate-300">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer semper,
-        libero vitae cursus lacinia, sapien sapien commodo lorem, a tincidunt
-        nunc felis vel nibh. In et lacus faucibus, ornare arcu id, auctor felis.
-      </p>
+      <p className="text-slate-600 dark:text-slate-300">{topic?.body}</p>
       <div className="flex flex-wrap justify-center sm:items-center sm:justify-between">
         <VoteButtons />
         <div className="flex items-center justify-between gap-4 mt-4 w-full sm:w-auto sm:mt-0">

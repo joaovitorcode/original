@@ -1,10 +1,10 @@
 import type { NextPage, GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { Header } from '../../components/Header'
-import { Nav } from '../../components/Nav'
-import { Topic } from '../../components/Topic'
-import { Aside } from '../../components/Aside'
+import { Header } from '../../../components/Header'
+import { Nav } from '../../../components/Nav'
+import { Topic } from '../../../components/Topic'
+import { Aside } from '../../../components/Aside'
 import axios from 'axios'
 
 const TopicPage: NextPage = ({ data }: any) => {

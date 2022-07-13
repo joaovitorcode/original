@@ -2,6 +2,7 @@ import { useState, Dispatch, SetStateAction } from 'react'
 
 interface CommentProps {
   styleProps?: boolean
+  value?: string
   setValue: Dispatch<SetStateAction<string>>
   setPublish: Dispatch<SetStateAction<boolean>>
 }
@@ -16,6 +17,7 @@ export function Write(props: CommentProps) {
       }`}
     >
       <input
+        value={props.value}
         onChange={event => props.setValue(event.target.value)}
         type="text"
         placeholder="Type something..."

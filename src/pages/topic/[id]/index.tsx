@@ -5,17 +5,33 @@ import { Header } from '../../../components/Header'
 import { Nav } from '../../../components/Nav'
 import { Topic } from '../../../components/Topic'
 import { Write } from '../../../components/Write'
-// import { Answer } from '../../../components/Answer'
+import { Answer } from '../../../components/Answer'
 import { Aside } from '../../../components/Aside'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../../hooks/useAuth'
 
-const TopicPage: NextPage = ({ data }: any) => {
+interface AnswerProps {
+  _id: string
+  author: {
+    id: string
+    displayName: string
+    photoURL: string
+  }
+  topicId: string
+  body: string
+  createdAt: string
+  upvotes: string
+  downvotes: string
+}
+
+const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
   const router = useRouter()
   const [value, setValue] = useState('')
   const [publish, setPublish] = useState(false)
   const { currentUser } = useAuth()
+  const topic = topicProps.topic
+  const answers = answersProps.answers
 
   useEffect(() => {
     async function handleSubmit() {
@@ -47,9 +63,11 @@ const TopicPage: NextPage = ({ data }: any) => {
         <div className="max-w-7xl mx-auto py-6 grid lg:grid-cols-[1fr_768px] xl:grid-cols-[1fr_768px_1fr] sm:gap-6 top-16">
           <Nav className="hidden lg:inline-block" />
           <main className="flex flex-col gap-6">
-            <Topic topic={data.topic}>
+            <Topic topic={topic}>
               <Write setValue={setValue} setPublish={setPublish} />
-              {/* <Answer /> */}
+              {answers.map((answer: AnswerProps) => (
+                <Answer key={answer._id} answer={answer} />
+              ))}
             </Topic>
           </main>
           <Aside />
@@ -62,13 +80,16 @@ const TopicPage: NextPage = ({ data }: any) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.params?.id
 
-  const response = await axios.get(
-    `http://localhost:3000/api/getTopicById/${id}`
+  const topic = await axios.get(`http://localhost:3000/api/getTopicById/${id}`)
+
+  const answers = await axios.get(
+    `http://localhost:3000/api/getAllAnswersByTopicId/${id}`
   )
 
   return {
     props: {
-      data: response.data,
+      topicProps: topic.data,
+      answersProps: answers.data,
     },
   }
 }

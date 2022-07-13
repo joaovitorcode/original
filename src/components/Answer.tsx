@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { VoteButtons } from './VoteButtons'
+import axios from 'axios'
 
 interface AnswerProps {
   answer: {
@@ -34,6 +35,12 @@ export function Answer({ answer }: AnswerProps) {
     }
   }, [router.pathname])
 
+  async function handleSubmit() {
+    await axios.delete(
+      `http://localhost:3000/api/removeAnswerById/${answer?._id}`
+    )
+  }
+
   return (
     <article className={`flex flex-col gap-4 ${styleProps}`}>
       <div className="flex items-center justify-between">
@@ -63,7 +70,10 @@ export function Answer({ answer }: AnswerProps) {
             <button className="hover:text-brand dark:text-white dark:hover:text-brand">
               Report
             </button>
-            <button className="hover:text-brand dark:text-white dark:hover:text-brand">
+            <button
+              onClick={handleSubmit}
+              className="hover:text-brand dark:text-white dark:hover:text-brand"
+            >
               Remove
             </button>
           </div>

@@ -3,7 +3,23 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { VoteButtons } from './VoteButtons'
 
-export function Answer() {
+interface AnswerProps {
+  answer: {
+    _id: string
+    author: {
+      id: string
+      displayName: string
+      photoURL: string
+    }
+    topicId: string
+    body: string
+    createdAt: string
+    upvotes: string
+    downvotes: string
+  }
+}
+
+export function Answer({ answer }: AnswerProps) {
   const router = useRouter()
   const [styleProps, setStyleProps] = useState('')
 
@@ -22,25 +38,22 @@ export function Answer() {
     <article className={`flex flex-col gap-4 ${styleProps}`}>
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <Image
-            src="/avatar.png"
-            width="32px"
-            height="32px"
-            className="rounded-full"
-          />
+          {answer.author && (
+            <Image
+              src={answer.author.photoURL}
+              width="32px"
+              height="32px"
+              className="rounded-full"
+            />
+          )}
           <p className="ml-2 text-slate-600 dark:text-slate-300 font-medium">
-            João Vitor
+            {answer.author.displayName}
           </p>
         </div>
-        <p className="text-slate-600 dark:text-slate-300">01 Jul 2022</p>
+        <p className="text-slate-600 dark:text-slate-300">{answer.createdAt}</p>
       </div>
       <div className="ml-10 flex flex-col gap-4">
-        <p className="text-slate-600 dark:text-slate-300">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-          semper, libero vitae cursus lacinia, sapien sapien commodo lorem, a
-          tincidunt nunc felis vel nibh. In et lacus faucibus, ornare arcu id,
-          auctor felis.
-        </p>
+        <p className="text-slate-600 dark:text-slate-300">{answer.body}</p>
         <div className="flex items-center justify-center flex-wrap sm: sm:items-center sm:justify-between">
           <VoteButtons />
           <div className="flex items-center gap-4 justify-between mt-4 w-full sm:w-auto sm:mt-0">

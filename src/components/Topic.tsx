@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { VoteButtons } from './VoteButtons'
 import { ReportModal } from './ReportModal'
 import { toast } from 'react-toastify'
+import axios from 'axios'
 
 interface TopicProps {
   children?: ReactNode
@@ -24,6 +25,12 @@ interface TopicProps {
 export function Topic({ children, topic }: TopicProps) {
   const [isOpen, setIsOpen] = useState(false)
   const notify = () => toast.success('Link copied with successfully!')
+
+  async function handleSubmit() {
+    await axios.delete(
+      `http://localhost:3000/api/removeTopicById/${topic?._id}`
+    )
+  }
 
   return (
     <article className="bg-white dark:bg-slate-900 shadow-md p-6 flex flex-col gap-4">
@@ -68,7 +75,10 @@ export function Topic({ children, topic }: TopicProps) {
           <button className="hover:text-brand dark:hover:text-brand dark:text-white">
             Edit
           </button>
-          <button className="hover:text-brand dark:hover:text-brand dark:text-white">
+          <button
+            onClick={handleSubmit}
+            className="hover:text-brand dark:hover:text-brand dark:text-white"
+          >
             Remove
           </button>
         </div>

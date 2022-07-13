@@ -1,8 +1,24 @@
 import Link from 'next/link'
 import { HiArrowUp } from 'react-icons/hi'
 import { User } from './User'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+
+interface UserProps {
+  _id: string
+  displayName: string
+  photoURL: string
+  countVotes: number
+}
 
 export function Aside() {
+  const [users, setUsers] = useState([])
+  useEffect(() => {
+    axios
+      .get('/api/getTopUsers')
+      .then(response => setUsers(response.data.users))
+  }, [])
+
   return (
     <div className="hidden xl:inline-block">
       <Link href="/topic/new">
@@ -17,11 +33,9 @@ export function Aside() {
           </span>
           <HiArrowUp size={20} className="text-brand" />
         </span>
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
+        {users.map((user: UserProps) => (
+          <User key={user._id} user={user} />
+        ))}
         <Link href="/top-users">
           <a className="text-brand">View more</a>
         </Link>

@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { VoteButtons } from './VoteButtons'
 import axios from 'axios'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { toast } from 'react-toastify'
 
 interface AnswerProps {
   answer: {
@@ -23,6 +25,7 @@ interface AnswerProps {
 export function Answer({ answer }: AnswerProps) {
   const router = useRouter()
   const [styleProps, setStyleProps] = useState('')
+  const notify = () => toast.success('Link copied with successfully!')
 
   useEffect(() => {
     if (
@@ -64,9 +67,16 @@ export function Answer({ answer }: AnswerProps) {
         <div className="flex items-center justify-center flex-wrap sm: sm:items-center sm:justify-between">
           <VoteButtons />
           <div className="flex items-center gap-4 justify-between mt-4 w-full sm:w-auto sm:mt-0">
-            <button className="hover:text-brand dark:text-white dark:hover:text-brand">
-              Share
-            </button>
+            <CopyToClipboard
+              text={`http://localhost:3000/answer/${answer?._id}`}
+            >
+              <button
+                onClick={notify}
+                className="hover:text-brand dark:text-white dark:hover:text-brand"
+              >
+                Share
+              </button>
+            </CopyToClipboard>
             <button className="hover:text-brand dark:text-white dark:hover:text-brand">
               Report
             </button>

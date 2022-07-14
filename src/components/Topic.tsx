@@ -4,6 +4,7 @@ import { VoteButtons } from './VoteButtons'
 import { ReportModal } from './ReportModal'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 interface TopicProps {
   children?: ReactNode
@@ -60,12 +61,14 @@ export function Topic({ children, topic }: TopicProps) {
           <button className="hover:text-brand dark:hover:text-brand dark:text-white">
             Reply
           </button>
-          <button
-            onClick={notify}
-            className="hover:text-brand dark:hover:text-brand dark:text-white"
-          >
-            Share
-          </button>
+          <CopyToClipboard text={`http://localhost:3000/topic/${topic?._id}`}>
+            <button
+              onClick={notify}
+              className="hover:text-brand dark:hover:text-brand dark:text-white"
+            >
+              Share
+            </button>
+          </CopyToClipboard>
           <button
             onClick={() => setIsOpen(true)}
             className="hover:text-brand dark:hover:text-brand dark:text-white"

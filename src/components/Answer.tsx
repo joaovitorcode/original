@@ -5,6 +5,7 @@ import { VoteButtons } from './VoteButtons'
 import axios from 'axios'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { toast } from 'react-toastify'
+import { ReportModal } from '../components/ReportModal'
 
 interface AnswerProps {
   answer: {
@@ -26,6 +27,7 @@ export function Answer({ answer }: AnswerProps) {
   const router = useRouter()
   const [styleProps, setStyleProps] = useState('')
   const notify = () => toast.success('Link copied with successfully!')
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     if (
@@ -77,7 +79,10 @@ export function Answer({ answer }: AnswerProps) {
                 Share
               </button>
             </CopyToClipboard>
-            <button className="hover:text-brand dark:text-white dark:hover:text-brand">
+            <button
+              onClick={() => setIsOpen(true)}
+              className="hover:text-brand dark:text-white dark:hover:text-brand"
+            >
               Report
             </button>
             <button
@@ -89,6 +94,12 @@ export function Answer({ answer }: AnswerProps) {
           </div>
         </div>
       </div>
+      {isOpen && (
+        <ReportModal
+          setIsOpen={setIsOpen}
+          subjectURL={`http://localhost:3000/answer/${answer?._id}`}
+        />
+      )}
     </article>
   )
 }

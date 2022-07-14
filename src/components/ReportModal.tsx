@@ -1,12 +1,14 @@
 import { HiX } from 'react-icons/hi'
 import { SetStateAction, Dispatch, MouseEvent } from 'react'
 import { toast } from 'react-toastify'
+import axios from 'axios'
 
 interface ModalDialogProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>
+  subjectURL: string
 }
 
-export function ReportModal({ setIsOpen }: ModalDialogProps) {
+export function ReportModal({ setIsOpen, subjectURL }: ModalDialogProps) {
   const notify = () => toast.success('Post reported successfully!')
 
   function handleOverlay(event: MouseEvent) {
@@ -15,7 +17,13 @@ export function ReportModal({ setIsOpen }: ModalDialogProps) {
     }
   }
 
-  function handleReport() {
+  async function handleReport() {
+    await axios.post('/api/addReport', {
+      subjectURL,
+      createdAt: new Date(),
+      moderated: false,
+      reported: false,
+    })
     setIsOpen(false)
     notify()
   }

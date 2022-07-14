@@ -87,7 +87,12 @@ export function Topic({ children, topic }: TopicProps) {
         </div>
       </div>
       {children && <div className="flex flex-col gap-4">{children}</div>}
-      {isOpen && <ReportModal setIsOpen={setIsOpen} />}
+      {isOpen && (
+        <ReportModal
+          setIsOpen={setIsOpen}
+          subjectURL={`http://localhost:3000/topic/${topic?._id}`}
+        />
+      )}
     </article>
   )
 }

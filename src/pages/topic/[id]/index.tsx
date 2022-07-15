@@ -21,8 +21,8 @@ interface AnswerProps {
   topicId: string
   body: string
   createdAt: string
-  upvotes: string
-  downvotes: string
+  upvotes: Array<string>
+  downvotes: Array<string>
 }
 
 const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
@@ -44,8 +44,8 @@ const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
         topicId: router.query.id,
         body: value,
         createdAt: new Date(),
-        upvotes: 0,
-        downvotes: 0,
+        upvotes: [],
+        downvotes: [],
       })
     }
 

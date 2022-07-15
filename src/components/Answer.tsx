@@ -6,6 +6,7 @@ import axios from 'axios'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { toast } from 'react-toastify'
 import { ReportModal } from '../components/ReportModal'
+import { useAuth } from '../hooks/useAuth'
 
 interface AnswerProps {
   answer: {
@@ -30,6 +31,7 @@ export function Answer({ answer }: AnswerProps) {
   const [isOpen, setIsOpen] = useState(false)
   const votes = answer?.upvotes.length! - answer?.downvotes.length!
   const [changeVote, setChangeVote] = useState(0)
+  const { currentUser } = useAuth()
 
   useEffect(() => {
     if (
@@ -47,6 +49,7 @@ export function Answer({ answer }: AnswerProps) {
       axios
         .patch(`/api/addVoteToAnswer`, {
           addUpvote: answer?._id,
+          authorId: currentUser?.uid,
         })
         .then(response => console.log(response))
     }
@@ -54,6 +57,7 @@ export function Answer({ answer }: AnswerProps) {
       axios
         .patch(`/api/addVoteToAnswer`, {
           addDownvote: answer?._id,
+          authorId: currentUser?.uid,
         })
         .then(response => console.log(response))
     }

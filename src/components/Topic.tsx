@@ -5,6 +5,7 @@ import { ReportModal } from './ReportModal'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { useAuth } from '../hooks/useAuth'
 
 interface TopicProps {
   children?: ReactNode
@@ -28,6 +29,7 @@ export function Topic({ children, topic }: TopicProps) {
   const notify = () => toast.success('Link copied with successfully!')
   const votes = topic?.upvotes.length! - topic?.downvotes.length!
   const [changeVote, setChangeVote] = useState(0)
+  const { currentUser } = useAuth()
 
   async function handleSubmit() {
     await axios.delete(
@@ -40,6 +42,7 @@ export function Topic({ children, topic }: TopicProps) {
       axios
         .patch(`/api/addVoteToTopic`, {
           addUpvote: topic?._id,
+          authorId: currentUser?.uid,
         })
         .then(response => console.log(response))
     }
@@ -47,6 +50,7 @@ export function Topic({ children, topic }: TopicProps) {
       axios
         .patch(`/api/addVoteToTopic`, {
           addDownvote: topic?._id,
+          authorId: currentUser?.uid,
         })
         .then(response => console.log(response))
     }

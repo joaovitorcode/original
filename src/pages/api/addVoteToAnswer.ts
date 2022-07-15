@@ -21,7 +21,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { addUpvote, addDownvote } = req.body
+  const { addUpvote, addDownvote, authorId } = req.body
 
   const db = await connectToDatabase(process.env.MONGODB_URI!)
 
@@ -35,7 +35,7 @@ export default async function handler(
       { _id: new ObjectId(addUpvote || addDownvote) },
       {
         $push: {
-          upvotes: addUpvote,
+          upvotes: authorId,
         },
       }
     )
@@ -46,7 +46,7 @@ export default async function handler(
       { _id: new ObjectId(addUpvote || addDownvote) },
       {
         $pull: {
-          upvotes: addUpvote,
+          upvotes: authorId,
         },
       }
     )
@@ -57,7 +57,7 @@ export default async function handler(
       { _id: new ObjectId(addUpvote || addDownvote) },
       {
         $push: {
-          downvotes: addDownvote,
+          downvotes: authorId,
         },
       }
     )
@@ -68,7 +68,7 @@ export default async function handler(
       { _id: new ObjectId(addUpvote || addDownvote) },
       {
         $pull: {
-          downvotes: addDownvote,
+          downvotes: authorId,
         },
       }
     )

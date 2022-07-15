@@ -24,8 +24,8 @@ const NewTopicPage: NextPage = () => {
         title: '',
         body: value,
         createdAt: new Date(),
-        upvotes: 0,
-        downvotes: 0,
+        upvotes: [],
+        downvotes: [],
       })
     }
 

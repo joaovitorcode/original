@@ -28,6 +28,8 @@ export function Answer({ answer }: AnswerProps) {
   const [styleProps, setStyleProps] = useState('')
   const notify = () => toast.success('Link copied with successfully!')
   const [isOpen, setIsOpen] = useState(false)
+  const votes = answer?.upvotes.length! - answer?.downvotes.length!
+  const [changeVote, setChangeVote] = useState(0)
 
   useEffect(() => {
     if (
@@ -39,6 +41,23 @@ export function Answer({ answer }: AnswerProps) {
       setStyleProps('border-t border-slate-300 pt-4')
     }
   }, [router.pathname])
+
+  useEffect(() => {
+    if (changeVote === 1) {
+      axios
+        .patch(`/api/addVoteToAnswer`, {
+          addUpvote: answer?._id,
+        })
+        .then(response => console.log(response))
+    }
+    if (changeVote === -1) {
+      axios
+        .patch(`/api/addVoteToAnswer`, {
+          addDownvote: answer?._id,
+        })
+        .then(response => console.log(response))
+    }
+  }, [changeVote])
 
   async function handleSubmit() {
     await axios.delete(
@@ -67,7 +86,7 @@ export function Answer({ answer }: AnswerProps) {
       <div className="ml-10 flex flex-col gap-4">
         <p className="text-slate-600 dark:text-slate-300">{answer.body}</p>
         <div className="flex items-center justify-center flex-wrap sm: sm:items-center sm:justify-between">
-          <VoteButtons />
+          <VoteButtons value={votes} setChangeVote={setChangeVote} />
           <div className="flex items-center gap-4 justify-between mt-4 w-full sm:w-auto sm:mt-0">
             <CopyToClipboard
               text={`http://localhost:3000/answer/${answer?._id}`}

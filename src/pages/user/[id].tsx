@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { GetServerSidePropsContext, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { Header } from '../../components/Header'
@@ -10,10 +10,40 @@ import { Answer } from '../../components/Answer'
 import { useState } from 'react'
 import axios from 'axios'
 
-const UserPage: NextPage = ({ data }: any) => {
+interface TopicProps {
+  _id: string
+  author: {
+    id: string
+    displayName: string
+    photoURL: string
+  }
+  title: string
+  body: string
+  createdAt: string
+  upvotes: Array<string>
+  downvotes: Array<string>
+}
+
+interface AnswerProps {
+  _id: string
+  author: {
+    id: string
+    displayName: string
+    photoURL: string
+  }
+  topicId: string
+  body: string
+  createdAt: string
+  upvotes: Array<string>
+  downvotes: Array<string>
+}
+
+const UserPage: NextPage = ({ userProps, topicsProps, answersProps }: any) => {
   const [toggle, setToggle] = useState('topics')
   const [styleProps] = useState('bg-brand bg-opacity-10 text-brand')
   const router = useRouter()
+  const topics = topicsProps.topics
+  const answers = answersProps.answers
 
   function handleToggle(choice: string) {
     setToggle(choice)
@@ -30,7 +60,7 @@ const UserPage: NextPage = ({ data }: any) => {
         <div className="max-w-7xl mx-auto py-6 grid lg:grid-cols-[1fr_768px] xl:grid-cols-[1fr_768px_1fr] sm:gap-6 top-16">
           <Nav className="hidden lg:inline-block" />
           <main className="flex flex-col gap-6">
-            <User user={data.user} styleProps />
+            <User user={userProps.user} styleProps />
             <div className="flex justify-between items-center mx-2 sm:mx-0">
               <span className="text-slate-800 font-medium uppercase">
                 Publications
@@ -54,7 +84,13 @@ const UserPage: NextPage = ({ data }: any) => {
                 </button>
               </div>
             </div>
-            {toggle === 'topics' ? <Topic /> : <Answer />}
+            {toggle === 'topics'
+              ? topics.map((topic: TopicProps) => (
+                  <Topic key={topic._id} topic={topic} />
+                ))
+              : answers.map((answer: AnswerProps) => (
+                  <Answer key={answer._id} answer={answer} />
+                ))}
           </main>
           <Aside />
         </div>
@@ -63,14 +99,22 @@ const UserPage: NextPage = ({ data }: any) => {
   )
 }
 
-export async function getServerSideProps() {
-  const response = await axios.get(
-    'http://localhost:3000/api/getUserById/E2dz8T0yx6eXITcEzvaWLp4jYBO2'
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const id = context.params?.id
+
+  const user = await axios.get(`http://localhost:3000/api/getUserById/${id}`)
+  const topics = await axios.get(
+    `http://localhost:3000/api/getAllTopicsByAuthorId/${id}`
+  )
+  const answers = await axios.get(
+    `http://localhost:3000/api/getAllAnswersByAuthorId/${id}`
   )
 
   return {
     props: {
-      data: response.data,
+      userProps: user.data,
+      topicsProps: topics.data,
+      answersProps: answers.data,
     },
   }
 }

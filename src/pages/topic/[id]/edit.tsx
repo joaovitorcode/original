@@ -5,22 +5,18 @@ import { Nav } from '../../../components/Nav'
 import { Write } from '../../../components/Write'
 import { Aside } from '../../../components/Aside'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const EditTopicPage: NextPage = ({ data }: any) => {
-  const [value, setValue] = useState(data.topic.body)
-  const [publish, setPublish] = useState(false)
+  const [title, setTitle] = useState('')
+  const [body, setBody] = useState(data.topic.body)
 
-  useEffect(() => {
-    async function handleSubmit() {
-      await axios.patch(`/api/editTopicById/${data.topic._id}`, {
-        title: '',
-        body: value,
-      })
-    }
-
-    if (publish) handleSubmit()
-  }, [publish])
+  async function handleSubmit() {
+    await axios.patch(`/api/editTopicById/${data.topic._id}`, {
+      title,
+      body,
+    })
+  }
 
   return (
     <div>
@@ -36,7 +32,13 @@ const EditTopicPage: NextPage = ({ data }: any) => {
             <span className="text-slate-800 dark:text-white font-medium uppercase mx-2 sm:mx-0">
               Edit a Topic
             </span>
-            <Write value={value} setValue={setValue} setPublish={setPublish} />
+            <Write
+              title={title}
+              setTitle={setTitle}
+              body={body}
+              setBody={setBody}
+              handleSubmit={handleSubmit}
+            />
           </main>
           <Aside />
         </div>

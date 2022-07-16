@@ -8,6 +8,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { useAuth } from '../hooks/useAuth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../lib/firebase'
+import Link from 'next/link'
 
 interface TopicProps {
   children?: ReactNode
@@ -78,9 +79,13 @@ export function Topic({ children, topic }: TopicProps) {
         </div>
         <p className="text-slate-600 dark:text-slate-300">{topic?.createdAt}</p>
       </div>
-      <h1 className="text-2xl font-medium dark:text-white">
-        How to learn javascript?
-      </h1>
+      <Link href={`/topic/${topic?._id}/`}>
+        <a>
+          <h1 className="text-2xl font-medium dark:text-white">
+            {topic?.title}
+          </h1>
+        </a>
+      </Link>
       <p className="text-slate-600 dark:text-slate-300">{topic?.body}</p>
       <div className="flex flex-wrap justify-center sm:items-center sm:justify-between">
         <VoteButtons value={votes} setChangeVote={setChangeVote} />

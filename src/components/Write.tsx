@@ -2,9 +2,11 @@ import { useState, Dispatch, SetStateAction } from 'react'
 
 interface CommentProps {
   styleProps?: boolean
-  value?: string
-  setValue: Dispatch<SetStateAction<string>>
-  setPublish: Dispatch<SetStateAction<boolean>>
+  title?: string
+  setTitle?: Dispatch<SetStateAction<string>>
+  body?: string
+  setBody: Dispatch<SetStateAction<string>>
+  handleSubmit: () => void
 }
 
 export function Write(props: CommentProps) {
@@ -16,11 +18,20 @@ export function Write(props: CommentProps) {
         props.styleProps && styleProps
       }`}
     >
+      {typeof props.title === 'string' && (
+        <input
+          value={props.title}
+          onChange={event => props.setTitle!(event.target.value)}
+          type="text"
+          placeholder="Title..."
+          className="border border-slate-300 dark:border-slate-600 p-3 rounded dark:bg-slate-800 dark:text-white"
+        />
+      )}
       <input
-        value={props.value}
-        onChange={event => props.setValue(event.target.value)}
+        value={props.body}
+        onChange={event => props.setBody(event.target.value)}
         type="text"
-        placeholder="Type something..."
+        placeholder="Body..."
         className="border border-slate-300 dark:border-slate-600 p-3 rounded dark:bg-slate-800 dark:text-white"
       />
       <div className="w-full flex items-center justify-between">
@@ -28,7 +39,7 @@ export function Write(props: CommentProps) {
           max. 0/1.000
         </span>
         <button
-          onClick={() => props.setPublish(true)}
+          onClick={props.handleSubmit}
           className="py-1 px-3 bg-brand hover:bg-white dark:hover:bg-slate-800 text-white hover:text-brand border border-brand rounded transition-colors"
         >
           Publish

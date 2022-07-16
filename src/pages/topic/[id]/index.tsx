@@ -8,7 +8,7 @@ import { Write } from '../../../components/Write'
 import { Answer } from '../../../components/Answer'
 import { Aside } from '../../../components/Aside'
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../../../hooks/useAuth'
 
 interface AnswerProps {
@@ -27,30 +27,25 @@ interface AnswerProps {
 
 const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
   const router = useRouter()
-  const [value, setValue] = useState('')
-  const [publish, setPublish] = useState(false)
+  const [body, setBody] = useState('')
   const { currentUser } = useAuth()
   const topic = topicProps.topic
   const answers = answersProps.answers
 
-  useEffect(() => {
-    async function handleSubmit() {
-      await axios.post('/api/addAnswer', {
-        author: {
-          id: currentUser?.uid,
-          displayName: currentUser?.displayName,
-          photoURL: currentUser?.photoURL,
-        },
-        topicId: router.query.id,
-        body: value,
-        createdAt: new Date(),
-        upvotes: [],
-        downvotes: [],
-      })
-    }
-
-    if (publish) handleSubmit()
-  }, [publish])
+  async function handleSubmit() {
+    await axios.post('/api/addAnswer', {
+      author: {
+        id: currentUser?.uid,
+        displayName: currentUser?.displayName,
+        photoURL: currentUser?.photoURL,
+      },
+      topicId: router.query.id,
+      body,
+      createdAt: new Date(),
+      upvotes: [],
+      downvotes: [],
+    })
+  }
 
   return (
     <div>
@@ -65,7 +60,7 @@ const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
           <main className="flex flex-col gap-6">
             <Topic topic={topic}>
               {currentUser && (
-                <Write setValue={setValue} setPublish={setPublish} />
+                <Write setBody={setBody} handleSubmit={handleSubmit} />
               )}
               {answers.map((answer: AnswerProps) => (
                 <Answer key={answer._id} answer={answer} />

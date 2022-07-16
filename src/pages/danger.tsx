@@ -7,12 +7,16 @@ import axios from 'axios'
 import { useAuth } from '../hooks/useAuth'
 
 const Danger: NextPage = () => {
-  const { currentUser } = useAuth()
+  const { currentUser, removeUser, newAuthenticate } = useAuth()
 
   async function handleSubmit() {
     await axios.delete(
       `http://localhost:3000/api/removeUserById/${currentUser?.uid}`
     )
+
+    await newAuthenticate()
+
+    await removeUser()
   }
 
   return (

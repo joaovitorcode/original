@@ -4,6 +4,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut as LogOut,
+  deleteUser,
+  reauthenticateWithPopup,
 } from 'firebase/auth'
 import { auth } from '../lib/firebase'
 import axios from 'axios'
@@ -45,7 +47,24 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
     await LogOut(auth)
   }
 
-  const value = { currentUser, signInWithGoogle, signOut }
+  async function removeUser() {
+    const user = auth.currentUser
+    await deleteUser(user!)
+  }
+
+  async function newAuthenticate() {
+    const user = auth.currentUser
+    const provider = new GoogleAuthProvider()
+    await reauthenticateWithPopup(user!, provider)
+  }
+
+  const value = {
+    currentUser,
+    signInWithGoogle,
+    signOut,
+    removeUser,
+    newAuthenticate,
+  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

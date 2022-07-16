@@ -3,6 +3,7 @@ import { HiArrowUp } from 'react-icons/hi'
 import { User } from './User'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useAuth } from '../hooks/useAuth'
 
 interface UserProps {
   _id: string
@@ -13,6 +14,8 @@ interface UserProps {
 
 export function Aside() {
   const [users, setUsers] = useState([])
+  const { currentUser } = useAuth()
+
   useEffect(() => {
     axios
       .get('/api/getTopUsers')
@@ -21,11 +24,13 @@ export function Aside() {
 
   return (
     <div className="hidden xl:inline-block">
-      <Link href="/topic/new">
-        <a className="w-full block text-center py-3 bg-brand hover:bg-white dark:hover:bg-slate-800 text-white hover:text-brand border border-brand rounded transition-colors mb-6">
-          Start new Topic
-        </a>
-      </Link>
+      {currentUser && (
+        <Link href="/topic/new">
+          <a className="w-full block text-center py-3 bg-brand hover:bg-white dark:hover:bg-slate-800 text-white hover:text-brand border border-brand rounded transition-colors mb-6">
+            Start new Topic
+          </a>
+        </Link>
+      )}
       <aside className="bg-white dark:bg-slate-800 sm:shadow-md p-4 flex flex-col items-start gap-6">
         <span className="w-full flex justify-between">
           <span className="text-slate-600 dark:text-slate-300 font-medium">
@@ -39,8 +44,12 @@ export function Aside() {
         <Link href="/top-users">
           <a className="text-brand">View more</a>
         </Link>
-        <div className="w-full border-t border-slate-300" />
-        <User />
+        {currentUser && (
+          <>
+            <div className="w-full border-t border-slate-300" />
+            <User />
+          </>
+        )}
       </aside>
     </div>
   )

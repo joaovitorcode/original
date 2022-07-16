@@ -7,6 +7,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { toast } from 'react-toastify'
 import { ReportModal } from '../components/ReportModal'
 import { useAuth } from '../hooks/useAuth'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '../lib/firebase'
 
 interface AnswerProps {
   answer: {
@@ -32,6 +34,7 @@ export function Answer({ answer }: AnswerProps) {
   const votes = answer?.upvotes.length! - answer?.downvotes.length!
   const [changeVote, setChangeVote] = useState(0)
   const { currentUser } = useAuth()
+  const [isAuthenticated, isLoading] = useAuthState(auth)
 
   useEffect(() => {
     if (
@@ -45,6 +48,7 @@ export function Answer({ answer }: AnswerProps) {
   }, [router.pathname])
 
   useEffect(() => {
+    if (!isAuthenticated || isLoading) return
     if (changeVote === 1) {
       axios
         .patch(`/api/addVoteToAnswer`, {
@@ -108,12 +112,14 @@ export function Answer({ answer }: AnswerProps) {
             >
               Report
             </button>
-            <button
-              onClick={handleSubmit}
-              className="hover:text-brand dark:text-white dark:hover:text-brand"
-            >
-              Remove
-            </button>
+            {currentUser?.uid === answer.author.id && (
+              <button
+                onClick={handleSubmit}
+                className="hover:text-brand dark:text-white dark:hover:text-brand"
+              >
+                Remove
+              </button>
+            )}
           </div>
         </div>
       </div>

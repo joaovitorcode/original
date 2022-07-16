@@ -16,8 +16,8 @@ interface TopicProps {
   title: string
   body: string
   createdAt: string
-  upvotes: string
-  downvotes: string
+  upvotes: Array<string>
+  downvotes: Array<string>
 }
 
 const Home: NextPage = ({ data }: any) => {

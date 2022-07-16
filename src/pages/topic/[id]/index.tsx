@@ -64,7 +64,9 @@ const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
           <Nav className="hidden lg:inline-block" />
           <main className="flex flex-col gap-6">
             <Topic topic={topic}>
-              <Write setValue={setValue} setPublish={setPublish} />
+              {currentUser && (
+                <Write setValue={setValue} setPublish={setPublish} />
+              )}
               {answers.map((answer: AnswerProps) => (
                 <Answer key={answer._id} answer={answer} />
               ))}

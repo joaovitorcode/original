@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { useAuth } from '../hooks/useAuth'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '../lib/firebase'
 
 interface TopicProps {
   children?: ReactNode
@@ -30,6 +32,7 @@ export function Topic({ children, topic }: TopicProps) {
   const votes = topic?.upvotes.length! - topic?.downvotes.length!
   const [changeVote, setChangeVote] = useState(0)
   const { currentUser } = useAuth()
+  const [isAuthenticated, isLoading] = useAuthState(auth)
 
   async function handleSubmit() {
     await axios.delete(
@@ -38,6 +41,7 @@ export function Topic({ children, topic }: TopicProps) {
   }
 
   useEffect(() => {
+    if (!isAuthenticated || isLoading) return
     if (changeVote === 1) {
       axios
         .patch(`/api/addVoteToTopic`, {
@@ -81,9 +85,11 @@ export function Topic({ children, topic }: TopicProps) {
       <div className="flex flex-wrap justify-center sm:items-center sm:justify-between">
         <VoteButtons value={votes} setChangeVote={setChangeVote} />
         <div className="flex items-center justify-between gap-4 mt-4 w-full sm:w-auto sm:mt-0">
-          <button className="hover:text-brand dark:hover:text-brand dark:text-white">
-            Reply
-          </button>
+          {currentUser && (
+            <button className="hover:text-brand dark:hover:text-brand dark:text-white">
+              Reply
+            </button>
+          )}
           <CopyToClipboard text={`http://localhost:3000/topic/${topic?._id}`}>
             <button
               onClick={notify}
@@ -98,15 +104,19 @@ export function Topic({ children, topic }: TopicProps) {
           >
             Report
           </button>
-          <button className="hover:text-brand dark:hover:text-brand dark:text-white">
-            Edit
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="hover:text-brand dark:hover:text-brand dark:text-white"
-          >
-            Remove
-          </button>
+          {currentUser?.uid === topic?.author.id && (
+            <>
+              <button className="hover:text-brand dark:hover:text-brand dark:text-white">
+                Edit
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="hover:text-brand dark:hover:text-brand dark:text-white"
+              >
+                Remove
+              </button>
+            </>
+          )}
         </div>
       </div>
       {children && <div className="flex flex-col gap-4">{children}</div>}

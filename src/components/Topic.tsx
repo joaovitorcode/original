@@ -57,7 +57,7 @@ export function Topic({ children, topic }: TopicProps) {
   }, [changeVote])
 
   return (
-    <article className="bg-white dark:bg-slate-900 shadow-md p-6 flex flex-col gap-4">
+    <article className="bg-white dark:bg-slate-800 shadow-md p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           {topic?.author && (

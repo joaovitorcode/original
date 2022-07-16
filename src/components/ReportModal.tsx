@@ -33,7 +33,7 @@ export function ReportModal({ setIsOpen, subjectURL }: ModalDialogProps) {
       onClick={event => handleOverlay(event)}
       className="bg-black bg-opacity-50 fixed inset-0 z-10 flex items-center justify-center"
     >
-      <div className="sm:max-w-md w-full h-full sm:h-auto bg-white dark:bg-slate-900 p-4 rounded flex flex-col gap-4">
+      <div className="sm:max-w-md w-full h-full sm:h-auto bg-white dark:bg-slate-800 p-4 rounded flex flex-col gap-4">
         <header className="flex items-center justify-between">
           <strong className="text-lg font-semibold dark:text-white">
             Título do modal

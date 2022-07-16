@@ -62,13 +62,13 @@ const UserPage: NextPage = ({ userProps, topicsProps, answersProps }: any) => {
           <main className="flex flex-col gap-6">
             <User user={userProps.user} styleProps />
             <div className="flex justify-between items-center mx-2 sm:mx-0">
-              <span className="text-slate-800 font-medium uppercase">
+              <span className="text-slate-800 dark:text-slate-400 font-medium uppercase">
                 Publications
               </span>
               <div className="flex gap-4">
                 <button
                   onClick={() => handleToggle('topics')}
-                  className={`text-slate-600 hover:bg-brand hover:bg-opacity-10 hover:text-brand py-2 px-3 rounded ${
+                  className={`text-slate-600 dark:text-slate-400 hover:bg-brand hover:bg-opacity-10 hover:text-brand py-2 px-3 rounded ${
                     toggle === 'topics' && styleProps
                   }`}
                 >
@@ -76,7 +76,7 @@ const UserPage: NextPage = ({ userProps, topicsProps, answersProps }: any) => {
                 </button>
                 <button
                   onClick={() => handleToggle('answers')}
-                  className={`text-slate-600 hover:bg-brand hover:bg-opacity-10 hover:text-brand py-2 px-3 rounded ${
+                  className={`text-slate-600 dark:text-slate-400 hover:bg-brand hover:bg-opacity-10 hover:text-brand py-2 px-3 rounded ${
                     toggle === 'answers' && styleProps
                   }`}
                 >

@@ -38,7 +38,7 @@ export function Answer({ answer }: AnswerProps) {
       router.pathname === '/user/[id]' ||
       router.pathname === '/answer/[id]'
     ) {
-      setStyleProps('bg-white dark:bg-slate-900 shadow-md p-6')
+      setStyleProps('bg-white dark:bg-slate-800 shadow-md p-6')
     } else {
       setStyleProps('border-t border-slate-300 pt-4')
     }

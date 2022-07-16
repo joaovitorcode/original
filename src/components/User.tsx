@@ -7,7 +7,7 @@ interface UserProps {
 }
 
 export function User(props: UserProps) {
-  const [styleProps] = useState('bg-white dark:bg-slate-900 shadow-md p-6')
+  const [styleProps] = useState('bg-white dark:bg-slate-800 shadow-md p-6')
 
   return (
     <div

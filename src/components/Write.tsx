@@ -29,7 +29,7 @@ export function Write(props: CommentProps) {
         </span>
         <button
           onClick={() => props.setPublish(true)}
-          className="py-1 px-3 bg-brand hover:bg-white dark:hover:bg-slate-900 text-white hover:text-brand border border-brand rounded transition-colors"
+          className="py-1 px-3 bg-brand hover:bg-white dark:hover:bg-slate-800 text-white hover:text-brand border border-brand rounded transition-colors"
         >
           Publish
         </button>

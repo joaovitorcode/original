@@ -12,7 +12,7 @@ export function Header() {
   const { currentUser, signInWithGoogle, signOut } = useAuth()
 
   return (
-    <header className="w-full h-16 bg-white dark:bg-slate-900 shadow-md sticky top-0 z-10">
+    <header className="w-full h-16 bg-white dark:bg-slate-800 shadow-md sticky top-0 z-10">
       <div className="max-w-7xl h-full flex items-center justify-between mx-4 xl:mx-auto">
         <Image src="/logo.svg" alt="logo" width="121px" height="35px" />
         <div className="flex gap-4 items-center">
@@ -21,7 +21,7 @@ export function Header() {
             {currentUser ? (
               <button
                 onClick={signOut}
-                className="w-full h-10 sm:w-auto px-2 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600 shadow rounded transition-colors"
+                className="w-full h-10 sm:w-auto px-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600 shadow rounded transition-colors"
               >
                 Sign Out
               </button>
@@ -35,7 +35,7 @@ export function Header() {
         </div>
       </div>
       {isOpen && (
-        <div className="w-full bg-white dark:bg-slate-900 shadow-md pb-4">
+        <div className="w-full bg-white dark:bg-slate-800 shadow-md pb-4">
           <Nav className="lg:hidden" />
 
           <Link href="/topic/new">
@@ -47,7 +47,7 @@ export function Header() {
             {currentUser ? (
               <button
                 onClick={signOut}
-                className="w-full h-12 sm:w-auto px-2 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600 shadow rounded transition-colors"
+                className="w-full h-12 sm:w-auto px-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600 shadow rounded transition-colors"
               >
                 Sign Out
               </button>

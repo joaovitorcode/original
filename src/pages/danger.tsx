@@ -5,9 +5,26 @@ import { Nav } from '../components/Nav'
 import { Aside } from '../components/Aside'
 import axios from 'axios'
 import { useAuth } from '../hooks/useAuth'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '../lib/firebase'
+import { FullPageLoader } from '../components/FullPageLoader'
 
 const Danger: NextPage = () => {
   const { currentUser, removeUser, newAuthenticate } = useAuth()
+  const router = useRouter()
+  const [isAuthenticated, isLoading] = useAuthState(auth)
+
+  useEffect(() => {
+    if (!isAuthenticated && !isLoading) {
+      router.push('/')
+    }
+  }, [isAuthenticated, isLoading])
+
+  if (!isAuthenticated || isLoading) {
+    return <FullPageLoader />
+  }
 
   async function handleSubmit() {
     await axios.delete(
@@ -22,7 +39,7 @@ const Danger: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Top Users</title>
+        <title>Danger</title>
       </Head>
 
       <div className="w-full h-full">

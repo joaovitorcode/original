@@ -1,4 +1,5 @@
 import { useState, Dispatch, SetStateAction } from 'react'
+import TextareaAutosize from 'react-textarea-autosize'
 
 interface CommentProps {
   styleProps?: boolean
@@ -27,10 +28,9 @@ export function Write(props: CommentProps) {
           className="border border-slate-300 dark:border-slate-600 p-3 rounded dark:bg-slate-800 dark:text-white"
         />
       )}
-      <input
+      <TextareaAutosize
         value={props.body}
         onChange={event => props.setBody(event.target.value)}
-        type="text"
         placeholder="Body..."
         className="border border-slate-300 dark:border-slate-600 p-3 rounded dark:bg-slate-800 dark:text-white"
       />

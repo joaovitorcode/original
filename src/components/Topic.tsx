@@ -9,6 +9,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../lib/firebase'
 import Link from 'next/link'
+import moment from 'moment'
 
 interface TopicProps {
   children?: ReactNode
@@ -77,7 +78,9 @@ export function Topic({ children, topic }: TopicProps) {
             {topic?.author.displayName}
           </p>
         </div>
-        <p className="text-slate-600 dark:text-slate-300">{topic?.createdAt}</p>
+        <p className="text-slate-600 dark:text-slate-300">
+          {moment(topic?.createdAt).format('D MMM YYYY - H:mm')}
+        </p>
       </div>
       <Link href={`/topic/${topic?._id}/`}>
         <a>

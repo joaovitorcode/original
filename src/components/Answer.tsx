@@ -9,6 +9,7 @@ import { ReportModal } from '../components/ReportModal'
 import { useAuth } from '../hooks/useAuth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../lib/firebase'
+import moment from 'moment'
 
 interface AnswerProps {
   answer: {
@@ -89,7 +90,9 @@ export function Answer({ answer }: AnswerProps) {
             {answer.author.displayName}
           </p>
         </div>
-        <p className="text-slate-600 dark:text-slate-300">{answer.createdAt}</p>
+        <p className="text-slate-600 dark:text-slate-300">
+          {moment(answer?.createdAt).format('D MMM YYYY - H:mm')}
+        </p>
       </div>
       <div className="ml-10 flex flex-col gap-4">
         <p className="text-slate-600 dark:text-slate-300">{answer.body}</p>

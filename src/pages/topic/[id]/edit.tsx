@@ -8,7 +8,7 @@ import axios from 'axios'
 import { useState } from 'react'
 
 const EditTopicPage: NextPage = ({ data }: any) => {
-  const [title, setTitle] = useState('')
+  const [title, setTitle] = useState(data.topic.title)
   const [body, setBody] = useState(data.topic.body)
 
   async function handleSubmit() {

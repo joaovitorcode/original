@@ -94,9 +94,13 @@ export function Topic({ children, topic }: TopicProps) {
         <VoteButtons value={votes} setChangeVote={setChangeVote} />
         <div className="flex items-center justify-between gap-4 mt-4 w-full sm:w-auto sm:mt-0">
           {currentUser && (
-            <button className="hover:text-brand dark:hover:text-brand dark:text-white">
-              Reply
-            </button>
+            <Link href={`/topic/${topic?._id}/`}>
+              <a>
+                <button className="hover:text-brand dark:hover:text-brand dark:text-white">
+                  Reply
+                </button>
+              </a>
+            </Link>
           )}
           <CopyToClipboard text={`http://localhost:3000/topic/${topic?._id}`}>
             <button
@@ -114,9 +118,13 @@ export function Topic({ children, topic }: TopicProps) {
           </button>
           {currentUser?.uid === topic?.author.id && (
             <>
-              <button className="hover:text-brand dark:hover:text-brand dark:text-white">
-                Edit
-              </button>
+              <Link href={`/topic/${topic?._id}/edit`}>
+                <a>
+                  <button className="hover:text-brand dark:hover:text-brand dark:text-white">
+                    Edit
+                  </button>
+                </a>
+              </Link>
               <button
                 onClick={handleSubmit}
                 className="hover:text-brand dark:hover:text-brand dark:text-white"

@@ -14,7 +14,11 @@ export function Header() {
   return (
     <header className="w-full h-16 bg-white dark:bg-slate-800 shadow-md sticky top-0 z-10">
       <div className="max-w-7xl h-full flex items-center justify-between mx-4 xl:mx-auto">
-        <Image src="/logo.svg" alt="logo" width="121px" height="35px" />
+        <Link href="/">
+          <a className="mt-2">
+            <Image src="/logo.svg" alt="logo" width="121px" height="35px" />
+          </a>
+        </Link>
         <div className="flex gap-4 items-center">
           <ToggleColorModoButton />
           <div className="hidden sm:block">

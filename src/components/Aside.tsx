@@ -47,7 +47,12 @@ export function Aside() {
         {currentUser && (
           <>
             <div className="w-full border-t border-slate-300" />
-            <User />
+            {users.map(
+              (user: UserProps) =>
+                user._id.includes(currentUser.uid) && (
+                  <User key={user._id} user={user} />
+                )
+            )}
           </>
         )}
       </aside>

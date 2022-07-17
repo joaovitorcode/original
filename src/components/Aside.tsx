@@ -41,9 +41,6 @@ export function Aside() {
         {users.map((user: UserProps) => (
           <User key={user._id} user={user} />
         ))}
-        <Link href="/top-users">
-          <a className="text-brand">View more</a>
-        </Link>
         {currentUser && (
           <>
             <div className="w-full border-t border-slate-300" />

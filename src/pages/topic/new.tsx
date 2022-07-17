@@ -7,13 +7,17 @@ import { Write } from '../../components/Write'
 import { Aside } from '../../components/Aside'
 import axios from 'axios'
 import { useAuth } from '../../hooks/useAuth'
+import { useRouter } from 'next/router'
 
 const NewTopicPage: NextPage = () => {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const { currentUser } = useAuth()
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit() {
+    setIsLoading(true)
     await axios.post('/api/addTopic', {
       author: {
         id: currentUser?.uid,
@@ -26,6 +30,8 @@ const NewTopicPage: NextPage = () => {
       upvotes: [],
       downvotes: [],
     })
+    router.push('/')
+    setIsLoading(false)
   }
 
   return (
@@ -47,6 +53,7 @@ const NewTopicPage: NextPage = () => {
               setTitle={setTitle}
               setBody={setBody}
               handleSubmit={handleSubmit}
+              isLoading={isLoading}
             />
           </main>
           <Aside />

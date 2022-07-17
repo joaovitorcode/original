@@ -8,6 +8,7 @@ interface CommentProps {
   body?: string
   setBody: Dispatch<SetStateAction<string>>
   handleSubmit: () => void
+  isLoading: boolean
 }
 
 export function Write(props: CommentProps) {
@@ -39,8 +40,9 @@ export function Write(props: CommentProps) {
           max. 0/1.000
         </span>
         <button
+          disabled={props.isLoading}
           onClick={props.handleSubmit}
-          className="py-1 px-3 bg-brand hover:bg-white dark:hover:bg-slate-800 text-white hover:text-brand border border-brand rounded transition-colors"
+          className="py-1 px-3 bg-brand hover:bg-white dark:hover:bg-slate-800 text-white hover:text-brand border border-brand rounded transition-colors disabled:bg-slate-300 disabled:border-slate-300 disabled:text-white disabled:dark:bg-slate-600 disabled:dark:border-slate-600 disabled:dark:text-slate-300"
         >
           Publish
         </button>

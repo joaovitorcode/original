@@ -31,8 +31,10 @@ const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
   const { currentUser } = useAuth()
   const topic = topicProps.topic
   const answers = answersProps.answers
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit() {
+    setIsLoading(true)
     await axios.post('/api/addAnswer', {
       author: {
         id: currentUser?.uid,
@@ -45,6 +47,8 @@ const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
       upvotes: [],
       downvotes: [],
     })
+    router.push(`/topic/${topic._id}`)
+    setIsLoading(false)
   }
 
   return (
@@ -60,7 +64,11 @@ const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
           <main className="flex flex-col gap-6">
             <Topic topic={topic}>
               {currentUser && (
-                <Write setBody={setBody} handleSubmit={handleSubmit} />
+                <Write
+                  setBody={setBody}
+                  handleSubmit={handleSubmit}
+                  isLoading={isLoading}
+                />
               )}
               {answers.map((answer: AnswerProps) => (
                 <Answer key={answer._id} answer={answer} />

@@ -6,16 +6,22 @@ import { Write } from '../../../components/Write'
 import { Aside } from '../../../components/Aside'
 import axios from 'axios'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 const EditTopicPage: NextPage = ({ data }: any) => {
   const [title, setTitle] = useState(data.topic.title)
   const [body, setBody] = useState(data.topic.body)
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit() {
+    setIsLoading(true)
     await axios.patch(`/api/editTopicById/${data.topic._id}`, {
       title,
       body,
     })
+    router.push('/')
+    setIsLoading(false)
   }
 
   return (
@@ -38,6 +44,7 @@ const EditTopicPage: NextPage = ({ data }: any) => {
               body={body}
               setBody={setBody}
               handleSubmit={handleSubmit}
+              isLoading={isLoading}
             />
           </main>
           <Aside />

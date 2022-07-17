@@ -59,6 +59,7 @@ export function Answer({ answer }: AnswerProps) {
           authorId: currentUser?.uid,
         })
         .then(response => console.log(response))
+      router.reload()
     }
     if (changeVote === -1) {
       axios
@@ -67,6 +68,7 @@ export function Answer({ answer }: AnswerProps) {
           authorId: currentUser?.uid,
         })
         .then(response => console.log(response))
+      router.reload()
     }
   }, [changeVote])
 

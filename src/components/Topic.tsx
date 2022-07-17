@@ -11,6 +11,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../lib/firebase'
 import Link from 'next/link'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 
 interface TopicProps {
   children?: ReactNode
@@ -37,6 +38,7 @@ export function Topic({ children, topic }: TopicProps) {
   const [changeVote, setChangeVote] = useState(0)
   const { currentUser } = useAuth()
   const [isAuthenticated, isLoading] = useAuthState(auth)
+  const router = useRouter()
 
   useEffect(() => {
     if (!isAuthenticated || isLoading) return
@@ -47,6 +49,7 @@ export function Topic({ children, topic }: TopicProps) {
           authorId: currentUser?.uid,
         })
         .then(response => console.log(response))
+      router.reload()
     }
     if (changeVote === -1) {
       axios
@@ -55,6 +58,7 @@ export function Topic({ children, topic }: TopicProps) {
           authorId: currentUser?.uid,
         })
         .then(response => console.log(response))
+      router.reload()
     }
   }, [changeVote])
 

@@ -33,7 +33,7 @@ export function Nav({ className }: NavProps) {
       </Link>
       {currentUser && (
         <>
-          <Link href="/user/1">
+          <Link href={`/user/${currentUser?.uid}`}>
             <a
               className={`w-full px-4 py-3 text-start flex text-slate-600 hover:text-brand dark:hover:text-brand hover:bg-brand hover:bg-opacity-10 dark:hover:bg-opacity-20 dark:text-slate-300 ${
                 router.pathname === '/user/[id]' && styleProps

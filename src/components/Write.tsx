@@ -35,10 +35,7 @@ export function Write(props: CommentProps) {
         placeholder="Body..."
         className="border border-slate-300 dark:border-slate-600 p-3 rounded dark:bg-slate-800 dark:text-white"
       />
-      <div className="w-full flex items-center justify-between">
-        <span className="text-slate-600 dark:text-slate-300 text-sm">
-          max. 0/1.000
-        </span>
+      <div className="w-full flex items-center justify-end">
         <button
           disabled={props.isLoading}
           onClick={props.handleSubmit}

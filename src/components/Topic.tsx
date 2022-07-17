@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { VoteButtons } from './VoteButtons'
 import { ReportModal } from './ReportModal'
+import { RemoveModal } from './RemoveModal'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -29,18 +30,13 @@ interface TopicProps {
 }
 
 export function Topic({ children, topic }: TopicProps) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenReportModal, setIsOpenReportModal] = useState(false)
+  const [isOpenRemoveModal, setIsOpenRemoveModal] = useState(false)
   const notify = () => toast.success('Link copied with successfully!')
   const votes = topic?.upvotes.length! - topic?.downvotes.length!
   const [changeVote, setChangeVote] = useState(0)
   const { currentUser } = useAuth()
   const [isAuthenticated, isLoading] = useAuthState(auth)
-
-  async function handleSubmit() {
-    await axios.delete(
-      `http://localhost:3000/api/removeTopicById/${topic?._id}`
-    )
-  }
 
   useEffect(() => {
     if (!isAuthenticated || isLoading) return
@@ -111,7 +107,7 @@ export function Topic({ children, topic }: TopicProps) {
             </button>
           </CopyToClipboard>
           <button
-            onClick={() => setIsOpen(true)}
+            onClick={() => setIsOpenReportModal(true)}
             className="hover:text-brand dark:hover:text-brand dark:text-white"
           >
             Report
@@ -126,7 +122,7 @@ export function Topic({ children, topic }: TopicProps) {
                 </a>
               </Link>
               <button
-                onClick={handleSubmit}
+                onClick={() => setIsOpenRemoveModal(true)}
                 className="hover:text-brand dark:hover:text-brand dark:text-white"
               >
                 Remove
@@ -136,10 +132,16 @@ export function Topic({ children, topic }: TopicProps) {
         </div>
       </div>
       {children && <div className="flex flex-col gap-4">{children}</div>}
-      {isOpen && (
+      {isOpenReportModal && (
         <ReportModal
-          setIsOpen={setIsOpen}
+          setIsOpenReportModal={setIsOpenReportModal}
           subjectURL={`http://localhost:3000/topic/${topic?._id}`}
+        />
+      )}
+      {isOpenRemoveModal && (
+        <RemoveModal
+          setIsOpenRemoveModal={setIsOpenRemoveModal}
+          subjectURL={`http://localhost:3000/api/removeTopicById/${topic?._id}`}
         />
       )}
     </article>

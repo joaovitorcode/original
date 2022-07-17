@@ -6,6 +6,7 @@ import axios from 'axios'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { toast } from 'react-toastify'
 import { ReportModal } from '../components/ReportModal'
+import { RemoveModal } from './RemoveModal'
 import { useAuth } from '../hooks/useAuth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../lib/firebase'
@@ -31,11 +32,12 @@ export function Answer({ answer }: AnswerProps) {
   const router = useRouter()
   const [styleProps, setStyleProps] = useState('')
   const notify = () => toast.success('Link copied with successfully!')
-  const [isOpen, setIsOpen] = useState(false)
   const votes = answer?.upvotes.length! - answer?.downvotes.length!
   const [changeVote, setChangeVote] = useState(0)
   const { currentUser } = useAuth()
   const [isAuthenticated, isLoading] = useAuthState(auth)
+  const [isOpenReportModal, setIsOpenReportModal] = useState(false)
+  const [isOpenRemoveModal, setIsOpenRemoveModal] = useState(false)
 
   useEffect(() => {
     if (
@@ -67,12 +69,6 @@ export function Answer({ answer }: AnswerProps) {
         .then(response => console.log(response))
     }
   }, [changeVote])
-
-  async function handleSubmit() {
-    await axios.delete(
-      `http://localhost:3000/api/removeAnswerById/${answer?._id}`
-    )
-  }
 
   return (
     <article className={`flex flex-col gap-4 ${styleProps}`}>
@@ -110,14 +106,14 @@ export function Answer({ answer }: AnswerProps) {
               </button>
             </CopyToClipboard>
             <button
-              onClick={() => setIsOpen(true)}
+              onClick={() => setIsOpenReportModal(true)}
               className="hover:text-brand dark:text-white dark:hover:text-brand"
             >
               Report
             </button>
             {currentUser?.uid === answer.author.id && (
               <button
-                onClick={handleSubmit}
+                onClick={() => setIsOpenRemoveModal(true)}
                 className="hover:text-brand dark:text-white dark:hover:text-brand"
               >
                 Remove
@@ -126,10 +122,16 @@ export function Answer({ answer }: AnswerProps) {
           </div>
         </div>
       </div>
-      {isOpen && (
+      {isOpenReportModal && (
         <ReportModal
-          setIsOpen={setIsOpen}
+          setIsOpenReportModal={setIsOpenReportModal}
           subjectURL={`http://localhost:3000/answer/${answer?._id}`}
+        />
+      )}
+      {isOpenRemoveModal && (
+        <RemoveModal
+          setIsOpenRemoveModal={setIsOpenRemoveModal}
+          subjectURL={`http://localhost:3000/api/removeAnswerById/${answer?._id}`}
         />
       )}
     </article>

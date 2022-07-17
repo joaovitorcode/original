@@ -2,33 +2,31 @@ import { HiX } from 'react-icons/hi'
 import { SetStateAction, Dispatch, MouseEvent } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
 interface ModalDialogProps {
-  setIsOpenReportModal: Dispatch<SetStateAction<boolean>>
+  setIsOpenRemoveModal: Dispatch<SetStateAction<boolean>>
   subjectURL: string
 }
 
-export function ReportModal({
-  setIsOpenReportModal,
+export function RemoveModal({
+  setIsOpenRemoveModal,
   subjectURL,
 }: ModalDialogProps) {
-  const notify = () => toast.success('Post reported successfully!')
+  const notify = () => toast.success('Post removed successfully!')
+  const router = useRouter()
 
   function handleOverlay(event: MouseEvent) {
     if (event.target === event.currentTarget) {
-      setIsOpenReportModal(false)
+      setIsOpenRemoveModal(false)
     }
   }
 
-  async function handleReport() {
-    await axios.post('/api/addReport', {
-      subjectURL,
-      createdAt: new Date(),
-      moderated: false,
-      reported: false,
-    })
-    setIsOpenReportModal(false)
+  async function handleSubmit() {
+    await axios.delete(subjectURL)
+    setIsOpenRemoveModal(false)
     notify()
+    router.reload()
   }
 
   return (
@@ -42,7 +40,7 @@ export function ReportModal({
             Título do modal
           </strong>
           <button
-            onClick={() => setIsOpenReportModal(false)}
+            onClick={() => setIsOpenRemoveModal(false)}
             className="hover:text-red-500 dark:text-white dark:hover:text-red-500"
           >
             <HiX size={20} />
@@ -56,16 +54,16 @@ export function ReportModal({
         </main>
         <footer className="flex justify-end gap-4">
           <button
-            onClick={() => setIsOpenReportModal(false)}
+            onClick={() => setIsOpenRemoveModal(false)}
             className="px-3 py-1 rounded hover:bg-slate-200 dark:hover:bg-slate-600 dark:text-white"
           >
             Cancel
           </button>
           <button
-            onClick={handleReport}
+            onClick={handleSubmit}
             className="px-3 py-1 rounded text-white bg-red-600 hover:bg-red-700"
           >
-            Report
+            Remove
           </button>
         </footer>
       </div>

@@ -46,14 +46,29 @@ const Danger: NextPage = () => {
         <Header />
         <div className="max-w-7xl mx-auto py-6 grid lg:grid-cols-[1fr_768px] xl:grid-cols-[1fr_768px_1fr] sm:gap-6 top-16">
           <Nav className="hidden lg:inline-block" />
-          <main className="flex flex-col gap-6">
-            <a
-              onClick={handleSubmit}
-              className="hover:cursor-pointer block text-center py-3 bg-red-500 hover:bg-white dark:hover:bg-slate-900 text-white hover:text-red-500 border border-red-500 rounded transition-colors mb-6"
-            >
-              Delete User
-            </a>
-          </main>
+          <div className="flex flex-col">
+            <div className="flex flex-col gap-4 bg-white dark:bg-slate-800 p-6 shadow-md">
+              <header>
+                <strong className="text-lg font-semibold dark:text-white">
+                  This action cannot be undone
+                </strong>
+              </header>
+              <main>
+                <p className="text-slate-600 dark:text-slate-300">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Quisque ornare ligula id dictum aliquet.
+                </p>
+              </main>
+              <footer className="flex justify-end">
+                <a
+                  onClick={handleSubmit}
+                  className="hover:cursor-pointer block text-center p-3 bg-red-500 hover:bg-white dark:hover:bg-slate-900 text-white hover:text-red-500 border border-red-500 rounded transition-colors"
+                >
+                  Delete User
+                </a>
+              </footer>
+            </div>
+          </div>
           <Aside />
         </div>
       </div>

@@ -55,9 +55,7 @@ const EditTopicPage: NextPage = ({ data }: any) => {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const response = await axios.get(
-    `http://localhost:3000/api/getTopicById/${context.params?.id}`
-  )
+  const response = await axios.get(`/api/getTopicById/${context.params?.id}`)
 
   return {
     props: {

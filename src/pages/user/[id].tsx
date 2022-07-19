@@ -102,13 +102,9 @@ const UserPage: NextPage = ({ userProps, topicsProps, answersProps }: any) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.params?.id
 
-  const user = await axios.get(`http://localhost:3000/api/getUserById/${id}`)
-  const topics = await axios.get(
-    `http://localhost:3000/api/getAllTopicsByAuthorId/${id}`
-  )
-  const answers = await axios.get(
-    `http://localhost:3000/api/getAllAnswersByAuthorId/${id}`
-  )
+  const user = await axios.get(`/api/getUserById/${id}`)
+  const topics = await axios.get(`/api/getAllTopicsByAuthorId/${id}`)
+  const answers = await axios.get(`/api/getAllAnswersByAuthorId/${id}`)
 
   return {
     props: {

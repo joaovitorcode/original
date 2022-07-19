@@ -27,9 +27,7 @@ const Danger: NextPage = () => {
   }
 
   async function handleSubmit() {
-    await axios.delete(
-      `http://localhost:3000/api/removeUserById/${currentUser?.uid}`
-    )
+    await axios.delete(`/api/removeUserById/${currentUser?.uid}`)
 
     await newAuthenticate()
 

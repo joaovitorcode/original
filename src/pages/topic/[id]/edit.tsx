@@ -16,10 +16,13 @@ const EditTopicPage: NextPage = ({ data }: any) => {
 
   async function handleSubmit() {
     setIsLoading(true)
-    await axios.patch(`/api/editTopicById/${data.topic._id}`, {
-      title,
-      body,
-    })
+    await axios.patch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/editTopicById/${data.topic._id}`,
+      {
+        title,
+        body,
+      }
+    )
     router.push('/')
     setIsLoading(false)
   }
@@ -55,7 +58,9 @@ const EditTopicPage: NextPage = ({ data }: any) => {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const response = await axios.get(`/api/getTopicById/${context.params?.id}`)
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/getTopicById/${context.params?.id}`
+  )
 
   return {
     props: {

@@ -44,7 +44,9 @@ const Home: NextPage = ({ data }: any) => {
 }
 
 export async function getServerSideProps() {
-  const response = await axios.get('/api/getAllTopics')
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/getAllTopics`
+  )
 
   return {
     props: {

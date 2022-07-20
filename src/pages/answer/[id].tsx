@@ -32,7 +32,9 @@ const AnswerPage: NextPage = ({ data }: any) => {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.params?.id
-  const response = await axios.get(`/api/getAnswerById/${id}`)
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/getAnswerById/${id}`
+  )
 
   return {
     props: {

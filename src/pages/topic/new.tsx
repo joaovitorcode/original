@@ -18,7 +18,7 @@ const NewTopicPage: NextPage = () => {
 
   async function handleSubmit() {
     setIsLoading(true)
-    await axios.post('/api/addTopic', {
+    await axios.post(`${process.env.NEXT_PUBLIC_SITE_URL}/api/addTopic`, {
       author: {
         id: currentUser?.uid,
         displayName: currentUser?.displayName,

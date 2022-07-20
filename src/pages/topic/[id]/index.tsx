@@ -35,7 +35,7 @@ const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
 
   async function handleSubmit() {
     setIsLoading(true)
-    await axios.post('/api/addAnswer', {
+    await axios.post(`${process.env.NEXT_PUBLIC_SITE_URL}/api/addAnswer`, {
       author: {
         id: currentUser?.uid,
         displayName: currentUser?.displayName,
@@ -85,9 +85,13 @@ const TopicPage: NextPage = ({ topicProps, answersProps }: any) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.params?.id
 
-  const topic = await axios.get(`/api/getTopicById/${id}`)
+  const topic = await axios.get(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/getTopicById/${id}`
+  )
 
-  const answers = await axios.get(`/api/getAllAnswersByTopicId/${id}`)
+  const answers = await axios.get(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/getAllAnswersByTopicId/${id}`
+  )
 
   return {
     props: {

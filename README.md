@@ -36,13 +36,28 @@ npm i
 - Obtenha a Configuração do SDK do app para a web
 - Cole essa configuração dentro do arquivo _firebase.ts_ localizado na lib
 - Habilite o serviço _authentication_ utilizando o provedor do Google
+- Crie um cluster no mongodb atlas
 
 ## Como funciona
 
 - Qualquer usuário poderar acessar os dados públicos (tópicos, respostas, perfis, etc.)
 - Mas apenas usuários cadastrados poderão criar, atualizar e excluír dados
 
-## Imagens
+## Prints
+### Homepage
+![print da homepage](https://github.com/joaovitorcode/original/blob/main/public/homepage.png)
+
+### Profile
+![print da página de perfil](https://github.com/joaovitorcode/original/blob/main/public/profile.png)
+
+### Danger
+![print da página danger](https://github.com/joaovitorcode/original/blob/main/public/danger.png)
+
+### Topic
+![print da página de tópico](https://github.com/joaovitorcode/original/blob/main/public/topic.png)
+
+### New Topioc
+![print da página de novo tópico](https://github.com/joaovitorcode/original/blob/main/public/new_topic.png)
 
 ## Versão
 
